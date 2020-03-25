@@ -8,7 +8,9 @@
 
 <script>
 export default {
+  
     name:'home',
+    
     data() {
         return {
             msg: 'welcome to the admin page'
