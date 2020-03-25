@@ -1,5 +1,5 @@
 <template>
-  <form action @submit.prevent="saveProduct">
+  <form @submit.prevent="saveProduct">
     <!-- 其他表单，如 input 等 -->
     <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
       <div class="form-control">
