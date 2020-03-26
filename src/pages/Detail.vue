@@ -1,6 +1,7 @@
 <template>
   <div>
-    <!-- <product-detail  :product="product"></product-detail> -->
+   <!--如果产品不存在 不加载组件-->
+    <product-detail v-if="product.name" :product="product"></product-detail>
   </div>
 </template>
 
@@ -19,10 +20,8 @@ export default {
   },
   computed: {
     product() {
-        console.log('computed');
-        
       const  product = this.$store.getters.productById(this.$route.params["id"]);
-        
+      console.log(this.$store.getters.allProducts);
       return product
     }
   },
