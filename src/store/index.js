@@ -2,6 +2,9 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 
+import {productGetters,manufacturerGetters} from './getters'
+import {productMutations,cartMutations,manufacturerMutations} from './mutations'
+
 const API_BASE = 'http://localhost:3000/api/v1'
 
 Vue.use(Vuex);
@@ -58,57 +61,62 @@ export default new Vuex.Store({
         manufacturers: []
     },
     mutations: {
-        ADD_TO_CART(state, payload) {
-            //对象解构
-            const {
-                product
-            } = payload;
-            state.cart.push(product);
-        },
-        REMOVE_FROM_CART(state, payload) {
-            console.log(payload)
-            const {
-                productId
-            } = payload;
+        // ADD_TO_CART(state, payload) {
+        //     //对象解构
+        //     const {
+        //         product
+        //     } = payload;
+        //     state.cart.push(product);
+        // },
+        // REMOVE_FROM_CART(state, payload) {
+        //     console.log(payload)
+        //     const {
+        //         productId
+        //     } = payload;
 
-            state.cart = state.cart.filter(product => product._id !== productId)
-        },
+        //     state.cart = state.cart.filter(product => product._id !== productId)
+        // },
 
-        ALL_PRODUCTS(state) {
-            state.showLoader = true;
-        },
-        ALL_PRODUCTS_SUCCESS(state, payload) {
-            const {
-                products
-            } = payload;
+        // ALL_PRODUCTS(state) {
+        //     state.showLoader = true;
+        // },
+        // ALL_PRODUCTS_SUCCESS(state, payload) {
+        //     const {
+        //         products
+        //     } = payload;
 
-            state.showLoader = false;
-            state.products = products;
-        },
+        //     state.showLoader = false;
+        //     state.products = products;
+        // },
 
-        PRODUCT_BY_ID(state) {
-            state.showLoader = true;
-        },
-        PRODUCT_BY_ID_SUCCESS(state, payload) {
-            state.showLoader = false;
-            const {
-                product
-            } = payload;
-            state.product = product;
-        }
+        // PRODUCT_BY_ID(state) {
+        //     state.showLoader = true;
+        // },
+        // PRODUCT_BY_ID_SUCCESS(state, payload) {
+        //     state.showLoader = false;
+        //     const {
+        //         product
+        //     } = payload;
+        //     state.product = product;
+        // }
+        ...productMutations,
+        ...cartMutations,
+        ...manufacturerMutations
     },
 
     getters: {
-        allProducts(state)  {
-            return state.products;
-        },
-        productById:(state,getters)=>id=>{
-            if (getters.allProducts.length>0 ) {
-                return getters.allProducts.filter(p=>p._id==id)[0]
-            } else {
-                return state.product;
-            }
-        }
+        ...productGetters,
+        ...manufacturerGetters
+        // allProducts(state)  {
+        //     return state.products;
+        // },
+        // productById:(state,getters)=>id=>{
+        //     if (getters.allProducts.length>0 ) {
+        //         return getters.allProducts.filter(p=>p._id==id)[0]
+        //     } else {
+        //         return state.product;
+        //     }
+        // }
     },
     actions: {
         //{ commit } 参数，这是采用了解构赋值的方式 const { commit } = context
@@ -123,6 +131,21 @@ export default new Vuex.Store({
                 });
             })
         },
+        
+        removeProduct({
+            commit
+        },payload){
+            commit('REMOVE_PRODUCT');
+            const {
+                productId
+            } = payload;
+            axios.delete(`${API_BASE}/products/${productId}`).then(response=>{
+                commit('REMOVE_PRODUCT_SUCCESS', {
+                    productId
+                });
+            });            
+        },
+
         productById({
             commit
         },payload) {
@@ -139,6 +162,28 @@ export default new Vuex.Store({
                 });
                 
             });
-        }
+        },
+        allManufacturers({
+            commit
+        }) {
+
+            commit('ALL_MANUFACTURERS');
+            axios.get(`${API_BASE}/manufacturers`).then(response => {
+                commit('ALL_MANUFACTURERS_SUCCESS', {
+                    manufacturers: response.data
+                });
+            })
+        },
+        removeManufacturer({ commit }, payload) {
+            commit('REMOVE_MANUFACTURER');
+        
+            const { manufacturerId } = payload;
+            axios.delete(`${API_BASE}/manufacturers/${manufacturerId}`).then(() => {
+              // 返回 manufacturerId，用于删除本地对应的制造商
+              commit('REMOVE_MANUFACTURER_SUCCESS', {
+                manufacturerId,
+              });
+            })
+          },
     }
 })
