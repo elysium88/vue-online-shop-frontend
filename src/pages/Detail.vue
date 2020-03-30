@@ -9,6 +9,7 @@
 import ProductDetail from "@/components/products/ProductDetail.vue";
 export default {
   
+  
   created() {
     const { name } = this.product;
     if (!name) {
