@@ -1,17 +1,24 @@
-export const productGetters={
-    allProducts(state)  {
+export const productGetters = {
+    allProducts(state) {
         return state.products;
     },
-    productById:(state,getters)=>id=>{
-        if (getters.allProducts.length>0 ) {
-            return getters.allProducts.filter(p=>p._id==id)[0]
+    productById: (state, getters) => id => {
+        if (getters.allProducts.length > 0) {
+            return getters.allProducts.filter(p => p._id == id)[0]
         } else {
             return state.product;
         }
     }
 }
-export const manufacturerGetters={
-    allManufacturers(state)  {
+export const manufacturerGetters = {
+    allManufacturers(state) {
         return state.manufacturers;
+    },
+    manufacturerById: (state, getters) => id => {
+        if (getters.allManufacturers.length > 0) {
+            return getters.allManufacturers.filter(manufacturer => manufacturer._id == id)[0];
+        } else {
+            return state.manufacturer;
+        }
     }
 }
