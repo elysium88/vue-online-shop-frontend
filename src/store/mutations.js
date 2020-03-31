@@ -57,7 +57,7 @@ export const productMutations = {
             productId
         } = payload;
 
-        state.cart = state.products.filter(product => product._id !== productId)
+        state.products = state.products.filter(product => product._id !== productId)
     },
     [UPDATE_PRODUCT](state) {
         state.showLoader = true;
@@ -139,7 +139,7 @@ export const manufacturerMutations = {
             manufacturerId
         } = payload;
 
-        state.cart = state.manufacturers.filter(manufacturer => manufacturer._id !== manufacturerId)
+        state.manufacturers = state.manufacturers.filter(manufacturer => manufacturer._id !== manufacturerId)
     },
     [UPDATE_MANUFACTURER](state) {
         state.showLoader = true;
