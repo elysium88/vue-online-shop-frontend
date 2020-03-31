@@ -11,7 +11,7 @@
         <tr>
           <th>名称</th>
            <th>价格</th>
-            <th>制造商</th>
+            <th>制造商 </th>
         </tr>
       </thead>
       <tbody>
