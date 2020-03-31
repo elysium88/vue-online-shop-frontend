@@ -23,8 +23,9 @@ import {
     REMOVE_MANUFACTURER_SUCCESS,
 } from './mutation-types';
 
+
 export const productMutations = {
-    
+
     [ALL_PRODUCTS](state) {
         state.showLoader = true;
     },
@@ -86,6 +87,7 @@ export const productMutations = {
         const {
             product
         } = payload;
+
         state.products = state.products.concat(product);
     }
 }

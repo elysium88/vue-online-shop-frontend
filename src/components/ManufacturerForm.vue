@@ -26,6 +26,8 @@ export default {
   props: ["model", "isEditing"],
   methods: {
     saveManufacturer() {
+        
+        
       this.$emit("save-manufacturer", this.model);
     }
   }

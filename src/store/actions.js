@@ -23,6 +23,7 @@ import {
     REMOVE_MANUFACTURER_SUCCESS,
   } from './mutation-types';
 
+
 const API_BASE = 'http://localhost:3000/api/v1'
 
 export const productActions = {
@@ -86,6 +87,7 @@ export const productActions = {
         const {
             product
         } = payload;
+                
         axios.post(`${API_BASE}/products`, product).then(response => {
             commit(ADD_PRODUCT_SUCCESS, {
                 product: response.data,
@@ -146,7 +148,9 @@ export const manufacturerActions = {
         const {
             manufacturer
         } = payload;
-        axios.put(`${API_BASE}/manufacturers/${manufacturer._id}`, manufacturer).then(() => {
+        axios.put(`${API_BASE}/manufacturers/${manufacturer._id}`, manufacturer).then((response) => {
+            console.log(router);
+            //router.push('/admin/manufacturers')
             commit(UPDATE_MANUFACTURER_SUCCESS, {
                 manufacturer,
             });

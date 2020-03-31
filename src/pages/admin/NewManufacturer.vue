@@ -20,8 +20,9 @@ export default {
   methods: {
     addManufacturer(model) {
       this.$store.dispatch("addManufacturer", {
-        manufacturer: mode
+        manufacturer: model
       });
+      
     }
   }
 };

@@ -20,15 +20,17 @@
 
       <div class="form-control">
         <label>manufacturer</label>
+        <!-- v-model会忽略所有表单元素的 value、checked、selected，所以下面option设置的selected没有用 -->
         <select class="form-control" name="manufacturer" v-model="model.manufacturer">
           <template v-for="manufacturer in manufacturers">
             <option
               :value="manufacturer._id"
               :key="manufacturer._id"
-              :selected="manufacturer._id == (model.manufacturer && model.manufacturer._id)"
+              :selected="manufacturer._id === (model.manufacturer && model.manufacturer._id)"
             >{{manufacturer.name}}</option>
           </template>
         </select>
+        
       </div>
     </div>
 
@@ -67,6 +69,8 @@
 <script>
 export default {
   data() {
+    console.log(this.model);
+    
     return {
       isSaved: false
     };
@@ -78,6 +82,8 @@ export default {
     // 在 saveProduct 内部，我们调用了父组件的 save-product 方法，并把修改后的 this.model 变量内容传给父组件。
     // 所以这里我们还可以看到，methods 不仅可以使得数据可以双向流动，而且还可以在子组件反向操作父组件的内容，使得数据还可以上下流动。`
     saveProduct() {
+      console.log(this.model);
+      
       this.$emit("save-product", this.model);
       //this.isSaved = true;
       // 完成一些保存创建商品的逻辑 ...
