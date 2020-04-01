@@ -17,11 +17,26 @@
 <script>
 import ProductForm from "@/components/products/ProductForm.vue";
 export default {
-  components: {
-    "product-form": ProductForm
-  },
+  // data: {
+  //   model() {
+  //     // 这里返回 product 的拷贝，是为了在修改 product 的拷贝之后，
+  //     //在保存之前不修改本地 Vuex store 的 product 属性
+  //     const product = this.$store.getters.productById(this.$route.params["id"]);
+  //     console.log(product);
+
+  //     return { ...product, manufacturer: { ...product.manufacturer } };
+  //   }
+  // },
+
+  // data() {
+  //   return {
+  //     model: { manufacturer: { name: "" } }
+  //   };
+  // },
   created() {
-    const { name } = this.model;
+    console.log("222");
+    const { name = "" } = this.model || {};
+    console.log(this.model);
     if (!name) {
       this.$store.dispatch("productById", {
         productId: this.$route.params["id"]
@@ -31,26 +46,31 @@ export default {
       this.$store.dispatch("allManufacturers");
     }
   },
-
   computed: {
     manufacturers() {
+      console.log(this.$store.getters.allManufacturers);
+
       return this.$store.getters.allManufacturers;
     },
     model() {
       // 这里返回 product 的拷贝，是为了在修改 product 的拷贝之后，
       //在保存之前不修改本地 Vuex store 的 product 属性
       const product = this.$store.getters.productById(this.$route.params["id"]);
-      return { ...product, manufacturer: { ...product.manufacturer } };
-    },
-    
+      const res = { ...product, manufacturer: { ...product.manufacturer } };
+
+      return res;
+    }
   },
   methods: {
-      updateProduct(product) {
-        this.$store.dispatch("updateProduct", {
-          product
-        });
-      }
+    updateProduct(product) {
+      this.$store.dispatch("updateProduct", {
+        product
+      });
     }
+  },
+  components: {
+    "product-form": ProductForm
+  }
 };
 </script>
 

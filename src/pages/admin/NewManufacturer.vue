@@ -5,24 +5,21 @@
 <script>
 import ManufacturerForm from "@/components/ManufacturerForm";
 export default {
+  data() {
+    return {
+      model:{}
+    };
+  },
   components: {
     "manufacturer-form": ManufacturerForm
   },
-  created() {
-    
-  },
-  computed: {
-    model() {
-      
-      return {};
-    }
-  },
+  created() {},
+  computed: {},
   methods: {
     addManufacturer(model) {
       this.$store.dispatch("addManufacturer", {
         manufacturer: model
       });
-      
     }
   }
 };

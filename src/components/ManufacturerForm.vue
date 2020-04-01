@@ -1,5 +1,5 @@
 <template>
-  <form action @submit.prevent="saveManufacturer">
+  <!-- <form action @submit.prevent="saveManufacturer">
     <div class="form-group">
       <label for>Name</label>
       <input
@@ -18,21 +18,42 @@
         <span v-else>添加制造商</span>
       </button>
     </div>
-  </form>
+  </form> -->
+
+<div class="manufacturerInfo">
+    <el-form class="form" ref="form" :model="model" label-width="180px">
+      <el-form-item label="Name">
+        <el-input v-model="model.name"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button v-if="isEditing" type="primary" @click="onSubmit">Update Manufacturer</el-button>
+        <el-button v-else @click="onSubmit">Add Manufacturer</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
+
 </template>
 
 <script>
 export default {
   props: ["model", "isEditing"],
   methods: {
-    saveManufacturer() {
-        
-        
+    onSubmit() {
       this.$emit("save-manufacturer", this.model);
     }
   }
 };
 </script>
 
-<style lang="scss" scoped>
+<style>
+.manufacturerInfo {
+  padding-top: 10px;
+}
+.form {
+  margin: 0 auto;
+  width: 500px;
+}
+.el-input__inner {
+  height: 50px;
+}
 </style>

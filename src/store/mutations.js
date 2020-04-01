@@ -97,6 +97,8 @@ export const cartMutations = {
         const {
             product
         } = payload;
+        console.log(product);
+        
         state.cart.push(product);
     },
     [REMOVE_FROM_CART](state, payload) {

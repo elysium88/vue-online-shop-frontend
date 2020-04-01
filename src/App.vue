@@ -74,7 +74,7 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-.el-submenu__title {
+/* .el-submenu__title {
   margin-left: 40px;
-}
+} */
 </style>
