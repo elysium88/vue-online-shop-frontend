@@ -1,6 +1,14 @@
 <template>
   <div class="productInfo">
-    <el-form class="form" ref="form" :model="model" label-width="80px">
+    <el-form
+      class="form"
+      ref="form"
+      label-width="80px"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.8)"
+    >
       <el-form-item label="Name">
         <el-input v-model="modelData.name"></el-input>
       </el-form-item>
@@ -32,7 +40,7 @@
         <el-input type="textarea" v-model="modelData.description"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button v-if="isEditing" type="primary" @click="saveProduct">更新</el-button>
+        <el-button v-if="isEditing" type="primary" native-type="submit" @click="saveProduct">更新</el-button>
         <el-button v-else @click="saveProduct">新增</el-button>
       </el-form-item>
     </el-form>
@@ -41,6 +49,8 @@
 
 <script>
 export default {
+  //props 接收来自父组件的三个参数：model、manufacturers、isEditing。
+  props: ["model", "manufacturers", "isEditing"],
   data() {
     return {
       modelData: { manufacturer: { name: "" } },
@@ -49,18 +59,22 @@ export default {
   },
   created() {
     console.log(this.manufacturers);
-    
+
     const product = this.model;
     this.modelData = { ...product, manufacturer: { ...product.manufacturer } };
   },
-  //props 接收来自父组件的三个参数：model、manufacturers、isEditing。
-  props: ["model", "manufacturers", "isEditing"],
+
   watch: {
     model(newValue, oldValue) {
       console.log(oldValue.name);
       console.log(newValue.name);
 
       this.modelData = newValue;
+    }
+  },
+  computed: {
+    loading() {
+      return this.$store.state.showLoader
     }
   },
   methods: {
@@ -70,7 +84,7 @@ export default {
     saveProduct() {
       console.log(this.manufacturers);
 
-       // 由于表单中只绑定了modelData.manufacturer.name，
+      // 由于表单中只绑定了modelData.manufacturer.name，
       // 缺少manufacturer._id,但是后端需要manufacturer整个对象,
       // 所以需要将manufacturers中对应的manufacturer找出并覆盖到modelData中
       const manufacturer = this.manufacturers.find(
@@ -78,8 +92,8 @@ export default {
       );
       this.modelData.manufacturer = manufacturer;
       console.log(this.model);
-      
-      //this.$emit("save-product", this.model);
+
+      this.$emit("save-product", this.modelData);
       //this.isSaved = true;
       // 完成一些保存创建商品的逻辑 ...
     }

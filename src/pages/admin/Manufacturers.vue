@@ -19,35 +19,40 @@
       </tbody>
     </table>
     <router-view></router-view>
-  </div> -->
-
-
+  </div>-->
 
   <div class="manufacturers">
-      <el-table class="table" :data="manufacturers" style="width: 100%">
-        <el-table-column prop="name" label="制造商" width="180"></el-table-column>    
+    <el-table class="table" :data="manufacturers" style="width: 100%">
+      <el-table-column prop="name" label="制造商" width="180"></el-table-column>
 
-        <el-table-column label="操作" width="180">
-          <template slot-scope="scope">
-            <el-button class="modify" type="" size="small">
-               <router-link :to="'/admin/manufacturers/edit/'+scope.row._id" tag="div">修改</router-link>
-            </el-button>
-            <el-button
-              class="remove"
-              @click="removeManufacturer(scope.row._id), deleteRow(scope.$index, manufacturers)"
-              type="danger"
-              size="small"
-            >删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
+      <el-table-column label="操作" width="180">
+        <template slot-scope="scope">
+          <el-button class="modify" type size="small">
+            <router-link :to="'/admin/manufacturers/edit/'+scope.row._id" tag="div">修改</router-link>
+          </el-button>
+
+          <el-popconfirm
+            title="确定删除吗？" placement="top"
+            @onConfirm="removeManufacturer(scope.row._id), deleteRow(scope.$index, manufacturers)"
+          >
+            <el-button slot="reference" type="danger" size="small">删除</el-button>
+          </el-popconfirm>
+
+          <!-- <el-button
+            class="remove"
+            @click="removeManufacturer(scope.row._id), deleteRow(scope.$index, manufacturers)"
+            type="danger"
+            size="small"
+          >删除</el-button> -->
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
 </template>
 
 <script>
 export default {
   created() {
-     
     if (this.manufacturers.length === 0) {
       this.$store.dispatch("allManufacturers");
     }
@@ -59,8 +64,8 @@ export default {
   },
   methods: {
     removeManufacturer(manufacturerId) {
-      const res = confirm("是否删除？");
-
+      //const res = confirm("是否删除？");
+      const res=true;
       if (res) {
         this.$store.dispatch("removeManufacturer", {
           manufacturerId

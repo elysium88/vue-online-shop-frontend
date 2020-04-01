@@ -37,15 +37,21 @@
 
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
-            <el-button class="modify" type="" size="small">
+            <el-button class="modify" type size="small">
               <router-link :to="'/admin/edit/' + scope.row._id" tag="div">修改</router-link>
             </el-button>
-            <el-button
+
+            <el-popconfirm title="确定删除吗？" placement="top" @onConfirm="removeProduct(scope.row._id), deleteRow(scope.$index, products)">
+              <el-button slot="reference" type="danger"
+              size="small">删除</el-button>
+            </el-popconfirm>
+
+            <!-- <el-button
               class="remove"
               @click="removeProduct(scope.row._id), deleteRow(scope.$index, products)"
               type="danger"
               size="small"
-            >删除</el-button>
+            >删除</el-button>-->
           </template>
         </el-table-column>
       </el-table>
@@ -55,6 +61,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      visible: false
+    };
+  },
   created() {
     if (this.products.length === 0) {
       this.$store.dispatch("allProducts");
@@ -68,7 +79,8 @@ export default {
   },
   methods: {
     removeProduct(productId) {
-      const res = confirm("是否删除此商品");
+      //const res = confirm("是否删除此商品");
+      const res = true;
       if (res) {
         this.$store.dispatch("removeProduct", {
           productId
